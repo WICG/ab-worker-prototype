@@ -1,0 +1,34 @@
+{
+  "private": true,
+  "name": "ab-worker",
+  "version": "0.0.1",
+  "description": "An Edge worker that implements A/B testing spec.",
+  "main": "./dist/worker.mjs",
+  "scripts": {
+    "dev": "npx wrangler dev",
+    "build": "npx webpack",
+    "pack-client": "npx terser src/client/index.js --compress --mangle --output dist/client.min.js",
+    "test": "echo \"Error: no test specified\"",
+    "format": "prettier --write '**/*.{js,css,json,md}'"
+  },
+  "author": "Alex N. Jose <alexnj@gmail.com>",
+  "license": "Apache License 2.0",
+  "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/plugin-transform-runtime": "^7.16.8",
+    "@babel/preset-env": "^7.16.8",
+    "@cloudflare/wrangler": "^1.19.7",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "path": "^0.12.7",
+    "prettier": "^1.18.2",
+    "webpack": "^5.66.0",
+    "webpack-cli": "^4.9.1"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.16.7",
+    "cookie": "^0.4.1",
+    "regenerator-runtime": "^0.13.9",
+    "terser": "^5.10.0"
+  }
+}
