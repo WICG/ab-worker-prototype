@@ -6,7 +6,7 @@ A proof of concept implementation of the performant client-side A/B testing spec
 
 ![architecture-diagram](/assets/images/arch.png)
 
-To implement a proof of concept, we will use a CloudFlare Worker to apply the PRE_UA transforms. This could be any compute node — a connect middleware for an Express application, a proxy or an Edge at the boundaries of an Origin, or a CDN with compute capabilities (like CF workers) that can intercept a request to the origin, minimally parse and modify the HTML and apply the transformations. 
+To implement a proof of concept, we will use a CloudFlare Worker to apply the `PRE_UA` transforms. Alternatively, this could be any compute node that can act as a proxy — a connect middleware for an Express.js frontend application, a proxy or an Edge at the boundaries of an Origin, or a CDN with compute capabilities (like CF workers). The proxy should be able to intercept a request to the origin, minimally parse and modify the HTML and apply the transformations. 
 
 Internally, CloudFlare production is [said to](https://blog.cloudflare.com/html-parsing-1/) use [lol-html](https://github.com/cloudflare/lol-html), a low-latency HTML parser that supports streaming. A non-CloudFlare version of this prototype will have to employ a similar mechanism with same performance characteristics for this to function at scale. 
 
