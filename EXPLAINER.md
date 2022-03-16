@@ -16,7 +16,7 @@ This is analogous to how client side A/B testing is conducted today — except w
     b. potentially improve cache hit rates at serving
     c. reduce computation needs on each client.
 
-3.  Apply transformations in a performant way, without blocking rendering of the page — ideally without any CWV metric degradation.
+3.  Apply transformations in a performant way, without blocking rendering of the page — ideally without any performance metric degradation.
 
 ## Standardizing the representation of transformations
 
@@ -31,20 +31,6 @@ We could represent the transformations required for reaching a variant as a seri
 ```
 
 where each field can be defined as follows
-
-|flags   |A bit field that indicates the type of transformation. For an initial version, we can support the following flags:   |
-|selector   |A CSS selector that targets the `HTMLElement` for transformation. Depending on the target platform and capability, only a subset of CSS selectors might be applicable here (and that needs to be documented and revisioned as the support changes).
-   |
-|operation   | A string that indicates the operation to be performed. 
-   Ideally, we would want this language or format to be the same across 
-   PRE_UA and ON_UA. However, this might be subject to platform 
-   limitations and library support etc. 
-   
-   The operations are expected to be idempotent, i.e., repeated 
-   applications of the operations should be possible and not have 
-   unintended side effects.  |
-|payload   |A variable number of arguments to support the operation. 
-   Should follow the specification of the operation used.   |
 
 <table>
   <tr>
@@ -102,7 +88,8 @@ where each field can be defined as follows
    Ideally, we would want this language or format to be the same across 
    PRE_UA and ON_UA. However, this might be subject to platform 
    limitations and library support etc. 
-   
+
+   <br>
    The operations are expected to be idempotent, i.e., repeated 
    applications of the operations should be possible and not have 
    unintended side effects.
@@ -127,7 +114,7 @@ where each field can be defined as follows
 
 A `PRE_UA` component is responsible for applying the transformations flagged as `PRE_UA`, i.e., the transforms that make best sense to be applied before User-Agent. This could be done at:
 1. the Origin itself, or 
-2. an Edge component at the Origin (like a router, web server plugin, or a proxy), or
+2. an Edge component at the Origin (like a web server plugin, or a proxy), or
 3. a CDN compute node that fronts the Origin as a proxy, or 
 4. an implementation inside the UA/Browser prior to parsing the document (this has a latency impact). 
 
@@ -206,3 +193,4 @@ This block results in approximately 365 bytes of minified code when processed vi
 *   [Performant A/B Testing with Cloudflare Workers](https://philipwalton.com/articles/performant-a-b-testing-with-cloudflare-workers/)
 *   [A History of HTML Parsing at Cloudflare: Part 1](https://blog.cloudflare.com/html-parsing-1/)
 *   [The Case Against Anti-Flicker Snippets](https://andydavies.me/blog/2020/11/16/the-case-against-anti-flicker-snippets/)
+*   [How CSS opacity animations can delay the Largest Contentful Paint](https://www.debugbear.com/blog/opacity-animation-poor-lcp)
