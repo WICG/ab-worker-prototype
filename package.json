@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "npx wrangler dev",
     "build": "npx webpack",
-    "pack-client": "npx terser src/client/index.js --compress --mangle --output dist/client.min.js",
+    "pack-client": "npx google-closure-compiler --compilation_level ADVANCED --js=src/client/index.js --js=src/constants.js --js_output_file=dist/client.min.js",
     "test": "echo \"Error: no test specified\"",
     "format": "prettier --write '**/*.{js,css,json,md}'"
   },
@@ -20,6 +20,7 @@
     "@cloudflare/wrangler": "^1.19.7",
     "babel-loader": "^8.2.3",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "google-closure-compiler": "^20221004.0.0",
     "path": "^0.12.7",
     "prettier": "^1.18.2",
     "webpack": "^5.66.0",
@@ -28,7 +29,6 @@
   "dependencies": {
     "@babel/runtime": "^7.16.7",
     "cookie": "^0.4.1",
-    "regenerator-runtime": "^0.13.9",
-    "terser": "^5.10.0"
+    "regenerator-runtime": "^0.13.9"
   }
 }

@@ -17,3 +17,16 @@
 export const PRE_UA = 0x1;
 export const ON_UA = 0x2;
 export const ONCE = 0x4;
+
+export const OPERATIONS = {
+  OP_CUSTOM_JS: 0,
+  OP_PREPEND: 2,
+  OP_APPEND: 3,
+  OP_INSERT_BEFORE: 4,
+  OP_INSERT_AFTER: 5,
+  OP_REPLACE: 6,
+  OP_SET_INNERHTML: 7,
+  OP_REMOVE: 8,
+  OP_SET_ATTRIBUTE: 9,
+  OP_REDIRECT: 10
+};

@@ -14,19 +14,34 @@
  * limitations under the License.
  */
 
-import { ON_UA, PRE_UA } from "../constants.js";
+import { ON_UA, PRE_UA, OPERATIONS } from "../constants.js";
 
 (function applyTransformations(transformations) {
+  const applicators = {
+    [OPERATIONS.OP_CUSTOM_JS]: (node, transform) => transform(node),
+    [OPERATIONS.OP_INSERT_BEFORE]: (node, html) => node.insertAdjacentHTML('beforebegin', html),
+    [OPERATIONS.OP_INSERT_AFTER]: (node, html) => node.insertAdjacentHTML('afterend', html),
+    [OPERATIONS.OP_PREPEND]: (node, html) => node.insertAdjacentHTML('afterbegin', html),
+    [OPERATIONS.OP_APPEND]: (node, html) => node.insertAdjacentHTML('beforeend', html),
+    [OPERATIONS.OP_REPLACE]: (node, html) => node.outerHTML = html,
+    [OPERATIONS.OP_SET_INNERHTML]: (node, html) => node.innerHTML = html,
+    [OPERATIONS.OP_REMOVE]: (node) => node.remove(),
+    [OPERATIONS.OP_SET_ATTRIBUTE]: (node, name, value) => node.setAttribute(name, value),
+  };
+  
   const transform = (target) => {
     if (target.nodeType !== 1) return;
-    for (const [i, [flags, selector, transform]] of transformations.entries()) {
-      if (!(flags & ON_UA) || !transform) continue;
+    for (const [flags, selector, operation, ...args] of transformations) {
+      if (!(flags & ON_UA) || operation === undefined) continue;
 
-      const node = target.querySelector(selector);
-      if (!node) continue;
+      const element = target.querySelector(selector);
+      if (!element) continue;
+
+      const applicator = applicators[operation];
+      if (!applicator) continue; // report back unsupported applicator usage.
 
       try {
-        transform(node);
+        applicator(element, ...args);
       } catch (e) {
         /* report back transform error */
       }

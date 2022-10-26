@@ -14,17 +14,38 @@
  * limitations under the License.
  */
 
-export default class PreUATransformApplicator {
-  ops = null;
+import {OPERATIONS} from './constants.js';
 
-  constructor(...ops) {
-    this.ops = ops;
+const opToCloudFlareOpMap = {
+  [OPERATIONS.OP_INSERT_BEFORE]: ['before', (html) => [html, {html: true}]],
+  [OPERATIONS.OP_INSERT_AFTER]: ['after', (html) => [html, {html: true}]],
+  [OPERATIONS.OP_PREPEND]: ['prepend', (html) => [html, {html: true}]],
+  [OPERATIONS.OP_APPEND]: ['append', (html) => [html, {html: true}]],
+  [OPERATIONS.OP_REPLACE]: ['replace', (html) => [html, {html: true}]],
+  [OPERATIONS.OP_SET_INNERHTML]: ['setInnerContent', (html) => [html, {html: true}]],
+  [OPERATIONS.OP_REMOVE]: ['remove', () => []],
+  [OPERATIONS.OP_SET_ATTRIBUTE]: ['setAttribute', (name, value) => [name, value]],
+};
+
+export default class PreUATransformApplicator {
+  args = null;
+
+  constructor(op, ...args) {
+    this.op = op;
+    this.args = args;
   }
 
   element(element) {
-    if (!this.ops) return;
-    const [method, html] = this.ops;
-    if (!element[method]) return;
-    element[method].call(element, html, { html: true });
+    if (!this.op) return;
+
+    // If it's a simple operation that translates to a CloudFlare worker method,
+    // we can directly execute it.
+    if (this.op in opToCloudFlareOpMap) {
+      const [cfMethod, fnArgTranslator] = opToCloudFlareOpMap[this.op];
+      element[cfMethod].call(element, ...fnArgTranslator(...this.args));
+      return;
+    }
+
+    // Handle any complex operations that involves multiple CF operations.
   }
 }

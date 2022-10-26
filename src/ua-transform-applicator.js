@@ -14,20 +14,28 @@
  * limitations under the License.
  */
 
-import { ON_UA } from "./constants.js";
+import { ON_UA, OPERATIONS } from "./constants.js";
 
 export default class UATransformApplicator {
   constructor(transforms) {
     this.transforms = transforms;
   }
 
+  static serializeOperation(operation, args) {
+    if (operation === OPERATIONS.OP_CUSTOM_JS) {
+      return [operation, `$=>{${args[0]}}`];
+    }
+    return [operation, ...args];
+  }
+
   getSerializedTransforms() {
     const output = [];
-    for (const [flags, selector, jsLines] of (this.transforms || [])) {
+    for (const [flags, selector, operation, ...args] of (this.transforms || [])) {
       if (!(flags & ON_UA)) continue;
       output.push([
         "[", flags, ",", JSON.stringify(selector), ",", 
-        `$=>{${jsLines}}`, "]",
+        UATransformApplicator.serializeOperation(operation, args).join(','), 
+        "]",
       ].join(""));
     }
 
@@ -35,7 +43,8 @@ export default class UATransformApplicator {
   }
 
   generateClientScript() {
-    return `<script>!function(e){const t=new Set;new MutationObserver(o=>{for(const{target:n}of o)t.size||requestAnimationFrame(()=>{for(const n of t){t.delete(n);var o=n;if(1===o.nodeType)for(const[,[t,n,r]]of e.entries()){if(!(2&t&&r))continue;const e=o.querySelector(n);if(e)try{r(e)}catch(e){}}}}),t.add(n)}).observe(document.documentElement,{childList:!0,subtree:!0})}(${this.getSerializedTransforms()});</script>`;
+    return `<script>(function(k){const l={[0]:(a,b)=>b(a),[4]:(a,b)=>a.insertAdjacentHTML("beforebegin",b),[5]:(a,b)=>a.insertAdjacentHTML("afterend",b),[2]:(a,b)=>a.insertAdjacentHTML("afterbegin",b),[3]:(a,b)=>a.insertAdjacentHTML("beforeend",b),[6]:(a,b)=>a.outerHTML=b,[7]:(a,b)=>a.innerHTML=b,[8]:a=>a.remove(),[9]:(a,b,c)=>a.setAttribute(b,c)},d=new Set;return(new MutationObserver(a=>{for(const {target:b}of a)d.size||requestAnimationFrame(()=>{for(const e of d){d.delete(e);var c=e;if(1===c.nodeType)for(const [,[m,
+      n,f,...p]]of k.entries()){if(!(m&2)||void 0===f)continue;const g=c.querySelector(n);if(!g)continue;const h=l[f];if(h)try{h(g,...p)}catch(q){}}}}),d.add(b)})).observe(document.documentElement,{childList:!0,subtree:!0})})(${this.getSerializedTransforms()});</script>`;
   }
 
   element(element) {

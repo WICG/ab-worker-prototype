@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-import { ON_UA, PRE_UA } from "./constants";
+import { ON_UA, PRE_UA, OPERATIONS} from "./constants";
 import VariantSelection from "./ab-variant-selection";
 import PreUATransformApplicator from "./pre-ua-transform-applicator";
 import UATransformApplicator from "./ua-transform-applicator";
-
 const error = (message) => new Response(message);
+
+const SUPPORTED_OPERATIONS = new Set(Object.values(OPERATIONS));
 
 export default {
   async fetch(request, environment, context) {
@@ -42,9 +43,15 @@ export default {
     const rewriter = new HTMLRewriter();
     let clientTransformCount = 0;
     const transformations = variant.transformations || [];
-    for (const [flags, selector, ...rest] of transformations) {
+    for (const [flags, selector, op, ...rest] of transformations) {
+      if (!SUPPORTED_OPERATIONS.has(op)) {
+        // TODO: Report to telemetry on unsupported opcode. In this demo, 
+        // we're just going to skip ahead. In reality, a broken transform might make the 
+        // subsequent opcodes incompatible if they're sequential and dependent.
+        continue;
+      }
       if (flags & PRE_UA) {
-        rewriter.on(selector, new PreUATransformApplicator(...rest));
+        rewriter.on(selector, new PreUATransformApplicator(op, ...rest));
       }
       if (flags & ON_UA) clientTransformCount++;
     }
