@@ -1,26 +1,15 @@
-name = "ab-worker-dev"
-account_id = ""
-type = "javascript"
+name = "ab-worker-demo"
+main = "dist/worker.js"
 compatibility_date = "2022-01-12"
-webpack_config = "webpack.config.js"
 workers_dev = true
 
 [build]
 command = "npm install && npm run build"
 
-[build.upload]
-format = "modules"
-dir = "./dist"
-main = "./worker.js"
-
-[[build.upload.rules]]
+[[rules]]
 type = "ESModule"
 globs = ["**/*.js"]
 
-[env.staging]
-name = "ab-worker-staging"
-vars = { ENVIRONMENT = "staging" }
-
 [env.production]
-name = "ab-worker"
+name = "ab-worker-demo"
 vars = { ENVIRONMENT = "staging" }

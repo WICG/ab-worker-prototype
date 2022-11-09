@@ -44,7 +44,7 @@ where each field can be defined as follows
       </td>
       <td><code>PRE_UA</code>
       </td>
-      <td>Transform has to be applied on the server, or prior to UA parsing. 
+      <td>Transform can be applied on the server, or prior to UA parsing.
       <br>It could be done at a CDN/Edge, or at the Origin server itself. 
     <br>
     <br>
@@ -56,7 +56,7 @@ where each field can be defined as follows
       </td>
       <td><code>ON_UA</code>
       </td>
-      <td>Transform has to be applied on the User Agent/the browser. <br>
+      <td>Transform can be applied on the User Agent/the browser. <br>
       Unless combined with the <code>ONCE</code> flag below, the transformation is <br>
       expected to be continuous — i.e., it is applicable any time during the <br>
       web application lifecycle within the UA.<br>
@@ -84,10 +84,9 @@ where each field can be defined as follows
   </tr>
   <tr>
    <td><code>operation<code></td>
-   <td>A string that indicates the operation to be performed. 
-   Ideally, we would want this language or format to be the same across 
-   PRE_UA and ON_UA. However, this might be subject to platform 
-   limitations and library support etc. 
+   <td>A numeric value indicating the operation to be performed. 
+   For a list of operations and their supported parameters, see the section 
+   "Operations" below.
 
    <br>
    The operations are expected to be idempotent, i.e., repeated 
@@ -99,6 +98,136 @@ where each field can be defined as follows
    <td><code>payload</code></td>
    <td>A variable number of arguments to support the operation. 
    Should follow the specification of the operation used.
+   </td>
+  </tr>
+</table>
+
+# Operations
+
+<table>
+  <tr>
+   <td style="background-color: #d9d9d9">Operation</td>
+   <td style="background-color: #d9d9d9">Code</td>
+   <td style="background-color: #d9d9d9">Description</td>
+  </tr>
+  <tr>
+   <td>OP_CUSTOM_JS</td>
+   <td>0</td>
+   <td>Executes a custom Javascript block of code against the element.
+<p>
+
+Arguments: 
+
+`code`: Javascript code serialized as a string. The applicator code will call this code as a function ($) => code, $ referring to the element selected.
+   </td>
+  </tr>
+  <tr>
+   <td>OP_INSERT_BEFORE</td>
+   <td>1</td>
+   <td>Inserts content right before the element.
+<p>
+
+Arguments: 
+
+`content`: HTML markup
+   </td>
+  </tr>
+  <tr>
+   <td>OP_INSERT_AFTER</td>
+   <td>2</td>
+   <td>Inserts content right after the element.
+<p>
+
+Arguments: 
+
+<p>
+`content`: HTML markup
+   </td>
+  </tr>
+  <tr>
+   <td>OP_PREPEND</td>
+   <td>3</td>
+   <td>Inserts content right after the start tag of the element.
+<p>
+
+Arguments: 
+
+<p>
+`content`: HTML markup
+   </td>
+  </tr>
+  <tr>
+   <td>OP_APPEND</td>
+   <td>4</td>
+   <td>Inserts content right before the end tag of the element.
+<p>
+
+Arguments: 
+
+<p>
+`content`: HTML markup
+   </td>
+  </tr>
+  <tr>
+   <td>OP_REPLACE</td>
+   <td>5</td>
+   <td>Replaces the element with the provided content.
+<p>
+
+Arguments: 
+
+<p>
+`content`: HTML markup
+   </td>
+  </tr>
+  <tr>
+   <td>OP_SET_INNERHTML</td>
+   <td>6</td>
+   <td>Replaces the content of the element with provided content.
+<p>
+
+Arguments: 
+
+<p>
+`content`: HTML markup
+   </td>
+  </tr>
+  <tr>
+   <td>OP_REMOVE</td>
+   <td>7</td>
+   <td>Removes the element and its children
+<p>
+
+Arguments:
+
+<p>
+none.
+   </td>
+  </tr>
+  <tr>
+   <td>OP_SET_ATTRIBUTE</td>
+   <td>8</td>
+   <td>Sets an attribute’s value on the element.
+<p>
+
+Arguments: 
+
+<p>
+`name`: Name of the attribute
+<p>
+`value`: Value to be set on the attribute.
+   </td>
+  </tr>
+  <tr>
+   <td>OP_REDIRECT</td>
+   <td>9</td>
+   <td>Redirect the user to a different page or URL.
+<p>
+
+Arguments: 
+
+<p>
+`URL`: URL to redirect the page to.
    </td>
   </tr>
 </table>
