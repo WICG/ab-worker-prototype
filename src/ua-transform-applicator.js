@@ -43,8 +43,8 @@ export default class UATransformApplicator {
   }
 
   generateClientScript() {
-    return `<script>(function(k){const l={[0]:(a,b)=>b(a),[4]:(a,b)=>a.insertAdjacentHTML("beforebegin",b),[5]:(a,b)=>a.insertAdjacentHTML("afterend",b),[2]:(a,b)=>a.insertAdjacentHTML("afterbegin",b),[3]:(a,b)=>a.insertAdjacentHTML("beforeend",b),[6]:(a,b)=>a.outerHTML=b,[7]:(a,b)=>a.innerHTML=b,[8]:a=>a.remove(),[9]:(a,b,c)=>a.setAttribute(b,c)},d=new Set;return(new MutationObserver(a=>{for(const {target:b}of a)d.size||requestAnimationFrame(()=>{for(const e of d){d.delete(e);var c=e;if(1===c.nodeType)for(const [,[m,
-      n,f,...p]]of k.entries()){if(!(m&2)||void 0===f)continue;const g=c.querySelector(n);if(!g)continue;const h=l[f];if(h)try{h(g,...p)}catch(q){}}}}),d.add(b)})).observe(document.documentElement,{childList:!0,subtree:!0})})(${this.getSerializedTransforms()});</script>`;
+    return `<script>(function(k){const l={[0]:(a,b)=>b(a),[1]:(a,b)=>a.insertAdjacentHTML("beforebegin",b),[2]:(a,b)=>a.insertAdjacentHTML("afterend",b),[3]:(a,b)=>a.insertAdjacentHTML("afterbegin",b),[4]:(a,b)=>a.insertAdjacentHTML("beforeend",b),[5]:(a,b)=>a.outerHTML=b,[6]:(a,b)=>a.innerHTML=b,[7]:a=>a.remove(),[8]:(a,b,c)=>a.setAttribute(b,c)},d=new Set;return(new MutationObserver(a=>{for(const {target:b}of a)d.size||requestAnimationFrame(()=>{for(const e of d){d.delete(e);var c=e;if(1===c.nodeType)for(const [m,
+      n,f,...p]of k){if(!(m&2)||void 0===f)continue;const g=c.querySelector(n);if(!g)continue;const h=l[f];if(h)try{h(g,...p)}catch(q){}}}}),d.add(b)})).observe(document.documentElement,{childList:!0,subtree:!0})})(${this.getSerializedTransforms()});</script>`;
   }
 
   element(element) {

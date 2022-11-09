@@ -1,4 +1,4 @@
-name = "ab-worker-demo"
+name = "ab-worker"
 main = "dist/worker.js"
 compatibility_date = "2022-01-12"
 workers_dev = true
@@ -11,5 +11,5 @@ type = "ESModule"
 globs = ["**/*.js"]
 
 [env.production]
-name = "ab-worker-demo"
+name = "ab-worker"
 vars = { ENVIRONMENT = "staging" }
