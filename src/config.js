@@ -15,7 +15,7 @@
  */
 
 export default {
-  getAbConfigEndpoint: (example) => {
-    return `https://gist.githubusercontent.com/alexnj/56e6a1bed280d3111e623f7f6da4d139/raw/${example}`;
+  getAbConfigEndpoint: (experiment) => {
+    return `https://gist.githubusercontent.com/alexnj/4c8d9198d16b238e4c7040250f052284/raw/${experiment}`;
   }
 }

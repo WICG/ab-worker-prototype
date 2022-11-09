@@ -23,19 +23,19 @@ export default class VariantSelection {
     const params = new URL(request.url).searchParams;
     const cookie = parse(request.headers.get("cookie") || "");
 
-    const example = params.get("example");
-    if (!example) throw new Error("which ?example=");
+    const experiment = params.get("experiment");
+    if (!experiment) throw new Error("which ?experiment=");
 
-    // Fetch AB configuration for the example.
-    const cfgResponse = await fetch(config.getAbConfigEndpoint(example));
+    // Fetch AB configuration for the experiment.
+    const cfgResponse = await fetch(config.getAbConfigEndpoint(experiment));
     if (!cfgResponse) {
-      throw new Error(`couldn't find an example that matches.`);
+      throw new Error(`couldn't find an experiment that matches.`);
     }
 
     const testConfig = await cfgResponse.json();
     const origin = testConfig?.control?.url;
     if (!origin) throw new Error("unable to determine origin url.");
-    testConfig.name = testConfig.name || example;
+    testConfig.name = testConfig.name || experiment;
 
     // Determine which variant for this request.
     const test = new AbRandomVariant(testConfig.variants, origin);

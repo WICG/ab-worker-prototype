@@ -33,7 +33,7 @@ The following A/B test configuration consists of transformations that create a r
 In addition, we'll also inject correct `<base>` tag to make relative URLs work, and `<link rel=canonical>` tag to avoid getting our prototype indexed as a duplicate.
 
 ```javascript
-{
+const experimentConfigJson = {
   "control": {
     "url": "https://todomvc.com/examples/react", 
     "cache": {
@@ -44,20 +44,28 @@ In addition, we'll also inject correct `<base>` tag to make relative URLs work, 
       "weight": 0.5,
       "url": "https://todomvc.com/examples/react", 
       "transformations": [
-        [1, "head", "prepend", "<base href=\"https://todomvc.com/examples/react/\" target=\"_blank\">"],
-        [1, "head", "prepend", "<link rel=\"canonical\" href=\"https://todomvc.com/examples/react/\" />"]
+        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */, 
+          "<base href=\"https://todomvc.com/examples/react/\" target=\"_blank\">"],
+        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */, 
+          "<link rel=\"canonical\" href=\"https://todomvc.com/examples/react/\" />"]
       ]
     },    
     {
       "weight": 0.5,
       "url": "https://todomvc.com/examples/react", 
       "transformations": [
-        [1, "head", "prepend", "<base href=\"https://todomvc.com/examples/react/\" target=\"_blank\">"],
-        [1, "head", "prepend", "<link rel=\"canonical\" href=\"https://todomvc.com/examples/react/\" />"],
-        [1, "head", "append", "<style>body{background:beige!important}</style>"],
-        [2, "h1", "$.innerHTML=\"a/b test h1\";"],
-        [2, ".new-todo", "$.placeholder=\"What would you like to do today?\""],
-        [2, ".todo-list>li", "$.style.color=\"red\""]
+        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */, 
+          "<base href=\"https://todomvc.com/examples/react/\" target=\"_blank\">"],
+        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */, 
+          "<link rel=\"canonical\" href=\"https://todomvc.com/examples/react/\" />"],
+        [1 /* PRE_UA */, "head", 4 /* OP_APPEND */, 
+          "<style>body{background:beige!important}</style>"],
+        [2 /* ON_UA */, "h1", 0 /* OP_CUSTOM_JS */,  
+          "$.innerHTML=\"a/b test h1\";"],
+        [2 /* ON_UA */, ".new-todo", 0 /* OP_CUSTOM_JS */, 
+          "$.placeholder=\"What would you like to do today?\""],
+        [2 /* ON_UA */, ".todo-list>li", 0 /* OP_CUSTOM_JS */, 
+          "$.style.color=\"red\""]
       ]
     }
   ]
@@ -65,9 +73,9 @@ In addition, we'll also inject correct `<base>` tag to make relative URLs work, 
 ```
 
 The prototype deployed on CloudFlare Edge can be accessed at:
-  * [Control](https://ab-worker.alexnj.workers.dev/?example=9dbd52d14409b0774ac9b3dc614efc7d-11&force=0)
-  * [Experiment](https://ab-worker.alexnj.workers.dev/?example=9dbd52d14409b0774ac9b3dc614efc7d-11&force=1)
-  * [Select one of them at random](https://ab-worker.alexnj.workers.dev/?example=9dbd52d14409b0774ac9b3dc614efc7d-11)
+  * [Control](https://ab-worker.alexnj.workers.dev/?experiment=9dbd52d14409b0774ac9b3dc614efc7d-11&force=0)
+  * [Experiment](https://ab-worker.alexnj.workers.dev/?experiment=9dbd52d14409b0774ac9b3dc614efc7d-11&force=1)
+  * [Select one of them at random](https://ab-worker.alexnj.workers.dev/?experiment=9dbd52d14409b0774ac9b3dc614efc7d-11)
 
 ### Performance comparison
 
