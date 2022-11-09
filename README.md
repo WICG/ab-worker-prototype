@@ -73,9 +73,11 @@ const experimentConfigJson = {
 ```
 
 The prototype deployed on CloudFlare Edge can be accessed at:
-  * [Control](https://ab-worker.alexnj.workers.dev/?experiment=9dbd52d14409b0774ac9b3dc614efc7d-11&force=0)
-  * [Experiment](https://ab-worker.alexnj.workers.dev/?experiment=9dbd52d14409b0774ac9b3dc614efc7d-11&force=1)
-  * [Select one of them at random](https://ab-worker.alexnj.workers.dev/?experiment=9dbd52d14409b0774ac9b3dc614efc7d-11)
+  * [Control](https://ab-worker.alexnj.workers.dev/?experiment=todomvc-v01.json&force=0)
+  * [Experiment](https://ab-worker.alexnj.workers.dev/?experiment=todomvc-v01.json&force=1)
+  * [Select one of them at random](https://ab-worker.alexnj.workers.dev/?experiment=todomvc-v01.json)
+
+Configuration for running this experiment is [hosted as a gist](https://gist.github.com/alexnj/4c8d9198d16b238e4c7040250f052284#file-todomvc-v01-json).
 
 ### Performance comparison
 
