@@ -14,20 +14,28 @@
  * limitations under the License.
  */
 
-class AbRandomVariant {
-  _variants = [];
-  _totals = [];
+import { ClientAb } from "./constants";
 
-  constructor(variants, originUrl) {
+export interface Variant {
+  weight: number;
+  url?: string;
+  transformations: ClientAb.Transform[];
+}
+
+export class AbRandomVariant {
+  _variants: Variant[] = [];
+  _totals: number[] = [];
+
+  constructor(variants: Variant[], originUrl: string) {
     this._variants = variants;
 
     // Weights should add up to 1.
     const remainingWeight = (this._variants || []).reduce(
-      (remaining, { weight }) => remaining - +weight,
+      (remaining, { weight }) => remaining - weight,
       1
     );
     if (remainingWeight) {
-      this._variants.push({ weight: remainingWeight, url: originUrl });
+      this._variants.push({ weight: remainingWeight, url: originUrl, transformations: []});
     }
 
     for (const { weight } of variants) {
@@ -49,9 +57,7 @@ class AbRandomVariant {
     return lo;
   }
 
-  getById(id) {
-    return this._variants[id];
+  getById(idx: number) {
+    return this._variants[idx];
   }
 }
-
-export default AbRandomVariant;

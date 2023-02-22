@@ -14,17 +14,28 @@
  * limitations under the License.
  */
 
-import AbRandomVariant from "./ab-random-variant";
-import { parse } from "cookie";
-import config from "./config";
+import {AbRandomVariant, Variant} from './ab-random-variant';
+import { parse } from 'cookie';
+import config from '../config';
+
+interface AbConfiguration {
+  name?: string;
+  control: Variant;
+  variants: Variant[]
+}
 
 export default class VariantSelection {
-  async select(request) {
-    const params = new URL(request.url).searchParams;
-    const cookie = parse(request.headers.get("cookie") || "");
+  variant?: Variant;
+  variantId?: number;
+  abName?: string;
+  isFreshVisit?: boolean;
 
-    const experiment = params.get("experiment");
-    if (!experiment) throw new Error("which ?experiment=");
+  async select(request: Request) {
+    const params = new URL(request.url).searchParams;
+    const cookie = parse(request.headers.get('cookie') || '');
+
+    const experiment = params.get('experiment');
+    if (!experiment) throw new Error('which ?experiment=');
 
     // Fetch AB configuration for the experiment.
     const cfgResponse = await fetch(config.getAbConfigEndpoint(experiment));
@@ -32,20 +43,21 @@ export default class VariantSelection {
       throw new Error(`couldn't find an experiment that matches.`);
     }
 
-    const testConfig = await cfgResponse.json();
+    const testConfig = await cfgResponse.json() as AbConfiguration;
     const origin = testConfig?.control?.url;
-    if (!origin) throw new Error("unable to determine origin url.");
+    if (!origin) throw new Error('unable to determine origin url.');
     testConfig.name = testConfig.name || experiment;
 
     // Determine which variant for this request.
     const test = new AbRandomVariant(testConfig.variants, origin);
     const variantId = +(
-      params.get("force") ??
+      params.get('force') ??
       cookie[testConfig.name] ??
-      test.pick()
+      test.getRandom()
     );
+
     const variant = test.getById(variantId);
-    if (!variant) throw new Error("unable to pick a variant");
+    if (!variant) throw new Error('unable to pick a variant');
 
     this.variant = variant;
     this.variantId = variantId;
@@ -55,10 +67,10 @@ export default class VariantSelection {
     return variant;
   }
 
-  makeSelectionSticky(response) {
+  makeSelectionSticky(response: Response) {
     if (!this.isFreshVisit) return;
     const name = this.abName;
     const value = this.variantId;
-    response.headers.set("set-cookie", `${name}=${value}`);
+    response.headers.set('set-cookie', `${name}=${value}`);
   }
 }

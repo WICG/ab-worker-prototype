@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
-import { ON_UA, PRE_UA, OPERATIONS } from "../constants.js";
+import { ClientAb } from '../lib/constants.js';
 
-(function applyTransformations(transformations) {
-  const applicators = {
-    [OPERATIONS.OP_CUSTOM_JS]: (node, transform) => transform(node),
-    [OPERATIONS.OP_INSERT_BEFORE]: (node, html) => node.insertAdjacentHTML('beforebegin', html),
-    [OPERATIONS.OP_INSERT_AFTER]: (node, html) => node.insertAdjacentHTML('afterend', html),
-    [OPERATIONS.OP_PREPEND]: (node, html) => node.insertAdjacentHTML('afterbegin', html),
-    [OPERATIONS.OP_APPEND]: (node, html) => node.insertAdjacentHTML('beforeend', html),
-    [OPERATIONS.OP_REPLACE]: (node, html) => node.outerHTML = html,
-    [OPERATIONS.OP_SET_INNERHTML]: (node, html) => node.innerHTML = html,
-    [OPERATIONS.OP_REMOVE]: (node) => node.remove(),
-    [OPERATIONS.OP_SET_ATTRIBUTE]: (node, name, value) => node.setAttribute(name, value),
+type AnyDOMOperation = (...args: any[]) => Array<any>;
+
+(function applyTransformations(transformations: ClientAb.Transform[]) {
+  const applicators: Partial<Record<ClientAb.Operations, AnyDOMOperation>> = {
+    [ClientAb.Operations.customJs]: (node, transform) => transform(node),
+    [ClientAb.Operations.insertBefore]: (node, html) => node.insertAdjacentHTML('beforebegin', html),
+    [ClientAb.Operations.insertAfter]: (node, html) => node.insertAdjacentHTML('afterend', html),
+    [ClientAb.Operations.prepend]: (node, html) => node.insertAdjacentHTML('afterbegin', html),
+    [ClientAb.Operations.append]: (node, html) => node.insertAdjacentHTML('beforeend', html),
+    [ClientAb.Operations.replace]: (node, html) => node.outerHTML = html,
+    [ClientAb.Operations.setInnerHtml]: (node, html) => node.innerHTML = html,
+    [ClientAb.Operations.remove]: (node) => node.remove(),
+    [ClientAb.Operations.setAttribute]: (node, name, value) => node.setAttribute(name, value),
   };
-  
-  const transform = (target) => {
+
+  const transform = (target: HTMLElement) => {
     if (target.nodeType !== 1) return;
     for (const [flags, selector, operation, ...args] of transformations) {
-      if (!(flags & ON_UA) || operation === undefined) continue;
+      if (!(flags & ClientAb.Flags.On_UA) || operation === undefined) continue;
 
       const element = target.querySelector(selector);
       if (!element) continue;
@@ -48,18 +50,20 @@ import { ON_UA, PRE_UA, OPERATIONS } from "../constants.js";
     }
   };
 
-  const queue = new Set();
+  const queue = new Set<HTMLElement>();
   var observer = new MutationObserver((mutations) => {
     for (const { target } of mutations) {
+      if (target.nodeType !== Node.ELEMENT_NODE) continue;
+      const mutatedElement = target as HTMLElement;
       if (!queue.size) {
         requestAnimationFrame(() => {
-          for (const target of queue) {
-            queue.delete(target);
-            transform(target);
+          for (const el of queue) {
+            queue.delete(el);
+            transform(el);
           }
         });
       }
-      queue.add(target);
+      queue.add(mutatedElement);
     }
   });
 

@@ -6,11 +6,11 @@ A proof of concept implementation of the performant client-side A/B testing spec
 
 ![architecture-diagram](/assets/images/arch.png)
 
-To implement a proof of concept, we will use a CloudFlare Worker to apply the `PRE_UA` transforms. Alternatively, this could be any compute node that can act as a proxy — a connect middleware for an Express.js frontend application, a proxy or an Edge at the boundaries of an Origin, or a CDN with compute capabilities (like CF workers). The proxy should be able to intercept a request to the origin, minimally parse and modify the HTML and apply the transformations. 
+To implement a proof of concept, we will use a CloudFlare Worker to apply the `PRE_UA` transforms. Alternatively, this could be any compute node that can act as a proxy — a connect middleware for an Express.js frontend application, a proxy or an Edge at the boundaries of an Origin, or a CDN with compute capabilities (like CF workers). The proxy should be able to intercept a request to the origin, minimally parse and modify the HTML and apply the transformations.
 
-Internally, CloudFlare production is [said to](https://blog.cloudflare.com/html-parsing-1/) use [lol-html](https://github.com/cloudflare/lol-html), a low-latency HTML parser that supports streaming. A non-CloudFlare version of this prototype will have to employ a similar mechanism with same performance characteristics for this to function at scale. 
+Internally, CloudFlare production is [said to](https://blog.cloudflare.com/html-parsing-1/) use [lol-html](https://github.com/cloudflare/lol-html), a low-latency HTML parser that supports streaming. A non-CloudFlare version of this prototype will have to employ a similar mechanism with same performance characteristics for this to function at scale.
 
-For the A/B configuration provider, we will make a pseudo-API out of GitHub gists — this would allow us to test multiple sites and variations without redeploying the CloudFlare worker. This will also mimic the real world dependency of an API call federation off the Edge/CDN/Server. We will use stale-while-revalidate (SWR) policy for the configuration fetch, which should be acceptable for most websites’ real A/B tests. 
+For the A/B configuration provider, we will make a pseudo-API out of GitHub gists — this would allow us to test multiple sites and variations without redeploying the CloudFlare worker. This will also mimic the real world dependency of an API call federation off the Edge/CDN/Server. We will use stale-while-revalidate (SWR) policy for the configuration fetch, which should be acceptable for most websites’ real A/B tests.
 
 In addition to that, the prototype edge also implements the following essential A/B testing functions:
  * Figure out if an A/B test configuration is in place for the requested URI, via consulting the pseudo API.
@@ -22,7 +22,7 @@ In addition to that, the prototype edge also implements the following essential 
 
 ## Demo
 
-For a demo, we're going to A/B test ToDoMVC, that is built using React as a client-side SPA. 
+For a demo, we're going to A/B test ToDoMVC, that is built using React as a client-side SPA.
 
 The following A/B test configuration consists of transformations that create a randomized experiment for 50% of the traffic:
   * Change background-color of the page to _`beige`_. Since this is best done on the static markup, we'd like to do have this transformation applied before UA.
@@ -35,36 +35,36 @@ In addition, we'll also inject correct `<base>` tag to make relative URLs work, 
 ```javascript
 const experimentConfigJson = {
   "control": {
-    "url": "https://todomvc.com/examples/react", 
+    "url": "https://todomvc.com/examples/react",
     "cache": {
     }
   },
   "variants": [
     {
       "weight": 0.5,
-      "url": "https://todomvc.com/examples/react", 
+      "url": "https://todomvc.com/examples/react",
       "transformations": [
-        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */, 
+        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */,
           "<base href=\"https://todomvc.com/examples/react/\" target=\"_blank\">"],
-        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */, 
+        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */,
           "<link rel=\"canonical\" href=\"https://todomvc.com/examples/react/\" />"]
       ]
-    },    
+    },
     {
       "weight": 0.5,
-      "url": "https://todomvc.com/examples/react", 
+      "url": "https://todomvc.com/examples/react",
       "transformations": [
-        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */, 
+        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */,
           "<base href=\"https://todomvc.com/examples/react/\" target=\"_blank\">"],
-        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */, 
+        [1 /* PRE_UA */, "head", 3 /* OP_PREPEND */,
           "<link rel=\"canonical\" href=\"https://todomvc.com/examples/react/\" />"],
-        [1 /* PRE_UA */, "head", 4 /* OP_APPEND */, 
+        [1 /* PRE_UA */, "head", 4 /* OP_APPEND */,
           "<style>body{background:beige!important}</style>"],
-        [2 /* ON_UA */, "h1", 0 /* OP_CUSTOM_JS */,  
+        [2 /* ON_UA */, "h1", 0 /* OP_CUSTOM_JS */,
           "$.innerHTML=\"a/b test h1\";"],
-        [2 /* ON_UA */, ".new-todo", 0 /* OP_CUSTOM_JS */, 
+        [2 /* ON_UA */, ".new-todo", 0 /* OP_CUSTOM_JS */,
           "$.placeholder=\"What would you like to do today?\""],
-        [2 /* ON_UA */, ".todo-list>li", 0 /* OP_CUSTOM_JS */, 
+        [2 /* ON_UA */, ".todo-list>li", 0 /* OP_CUSTOM_JS */,
           "$.style.color=\"red\""]
       ]
     }

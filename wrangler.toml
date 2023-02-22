@@ -1,15 +1,3 @@
 name = "ab-worker"
-main = "dist/worker.js"
-compatibility_date = "2022-01-12"
-workers_dev = true
-
-[build]
-command = "npm install && npm run build"
-
-[[rules]]
-type = "ESModule"
-globs = ["**/*.js"]
-
-[env.production]
-name = "ab-worker"
-vars = { ENVIRONMENT = "staging" }
+main = "src/index.ts"
+compatibility_date = "2023-02-21"

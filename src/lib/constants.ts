@@ -14,8 +14,29 @@
  * limitations under the License.
  */
 
-export default {
-  getAbConfigEndpoint: (experiment) => {
-    return `https://gist.githubusercontent.com/alexnj/4c8d9198d16b238e4c7040250f052284/raw/${experiment}`;
+export module ClientAb {
+
+  export type Transform = [
+    flag: Flags, selector: string, operation: Operations, ...rest: any
+  ]
+
+  export const enum Flags {
+    Pre_UA = 1 << 0,
+    On_UA  = 1 << 1,
+    Once   = 1 << 2,
   }
+
+  export const enum Operations {
+    customJs = 0,
+    insertBefore = 1,
+    insertAfter = 2,
+    prepend = 3,
+    append = 4,
+    replace = 5,
+    setInnerHtml = 6,
+    remove = 7,
+    setAttribute = 8,
+    redirect = 9,
+  }
+
 }

@@ -1,35 +1,25 @@
 {
   "private": true,
   "name": "ab-worker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An Edge worker that implements A/B testing spec.",
-  "main": "./dist/worker.mjs",
   "scripts": {
-    "dev": "npx wrangler dev",
+    "start": "wrangler dev",
+    "deploy": "wrangler publish",
     "build": "npx webpack",
-    "pack-client": "npx google-closure-compiler --compilation_level ADVANCED --js=src/client/index.js --js=src/constants.js --js_output_file=dist/client.min.js",
-    "test": "echo \"Error: no test specified\"",
-    "format": "prettier --write '**/*.{js,css,json,md}'",
-    "deploy": "npx wrangler publish"
+    "pack-client": "npx tsc src/client/index.ts --target es6; npx google-closure-compiler --compilation_level ADVANCED --js=src/client/index.js --js=src/lib/constants.js --js_output_file=dist/client.min.js; npm run clean",
+    "clean": "rm src/client/index.js src/lib/constants.js",
+    "test": "vitest"
   },
   "author": "Alex N. Jose <alexnj@gmail.com>",
   "license": "Apache License 2.0",
   "devDependencies": {
-    "@babel/core": "^7.16.7",
-    "@babel/plugin-transform-runtime": "^7.16.8",
-    "@babel/preset-env": "^7.16.8",
-    "babel-loader": "^8.2.3",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "google-closure-compiler": "^20221004.0.0",
-    "path": "^0.12.7",
-    "prettier": "^1.18.2",
-    "webpack": "^5.66.0",
-    "webpack-cli": "^4.9.1",
-    "wrangler": "^2.1.15"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.16.7",
-    "cookie": "^0.4.1",
-    "regenerator-runtime": "^0.13.9"
+    "@cloudflare/workers-types": "^4.20230221.0",
+    "@types/cookie": "^0.5.1",
+    "cookie": "^0.5.0",
+    "typescript": "^4.9.5",
+    "vitest": "^0.28.5",
+    "wrangler": "2.11.0",
+    "google-closure-compiler": "^20221004.0.0"
   }
 }
