@@ -14,35 +14,8 @@
  * limitations under the License.
  */
 
-const webpack = require('webpack')
-const path = require('path');
-
-module.exports = {
-  target: 'web',
-  entry: './src/worker.js',
-  mode: 'production',
-  output: {
-    filename: 'worker.js',
-    library: {
-      type: 'module',
-    },
-  },
-  experiments: {
-    outputModule: true,
-  },
-  module: {
-    rules: [
-      {
-        test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      }
-    ]
+export default {
+  getAbConfigEndpoint: (experiment: string) => {
+    return `https://gist.githubusercontent.com/alexnj/4c8d9198d16b238e4c7040250f052284/raw/${experiment}`;
   }
-  
 }
