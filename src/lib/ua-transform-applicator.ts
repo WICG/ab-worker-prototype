@@ -24,7 +24,7 @@ export default class UATransformApplicator  implements HTMLRewriterElementConten
   }
 
   static serializeOperation(operation: ClientAb.Operations, args: any[]) {
-    if (operation === ClientAb.Operations.customJs) {
+    if (operation === ClientAb.Operations.CustomJs) {
       return [operation, `$=>{${args[0]}}`];
     }
     return [operation, ...args.map(arg => JSON.stringify(arg))];
@@ -33,7 +33,7 @@ export default class UATransformApplicator  implements HTMLRewriterElementConten
   getSerializedTransforms() {
     const output = [];
     for (const [flags, selector, operation, ...args] of (this.transforms || [])) {
-      if (!(flags & ClientAb.Flags.On_UA)) continue;
+      if (!(flags & ClientAb.Flags.OnUA)) continue;
       output.push([
         '[', flags, ',', JSON.stringify(selector), ',',
         UATransformApplicator.serializeOperation(operation, args).join(','),

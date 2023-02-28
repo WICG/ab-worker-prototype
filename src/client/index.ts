@@ -20,21 +20,21 @@ type AnyDOMOperation = (...args: any[]) => Array<any>;
 
 (function applyTransformations(transformations: ClientAb.Transform[]) {
   const applicators: Partial<Record<ClientAb.Operations, AnyDOMOperation>> = {
-    [ClientAb.Operations.customJs]: (node, transform) => transform(node),
-    [ClientAb.Operations.insertBefore]: (node, html) => node.insertAdjacentHTML('beforebegin', html),
-    [ClientAb.Operations.insertAfter]: (node, html) => node.insertAdjacentHTML('afterend', html),
-    [ClientAb.Operations.prepend]: (node, html) => node.insertAdjacentHTML('afterbegin', html),
-    [ClientAb.Operations.append]: (node, html) => node.insertAdjacentHTML('beforeend', html),
-    [ClientAb.Operations.replace]: (node, html) => node.outerHTML = html,
-    [ClientAb.Operations.setInnerHtml]: (node, html) => node.innerHTML = html,
-    [ClientAb.Operations.remove]: (node) => node.remove(),
-    [ClientAb.Operations.setAttribute]: (node, name, value) => node.setAttribute(name, value),
+    [ClientAb.Operations.CustomJs]: (node, transform) => transform(node),
+    [ClientAb.Operations.InsertBefore]: (node, html) => node.insertAdjacentHTML('beforebegin', html),
+    [ClientAb.Operations.InsertAfter]: (node, html) => node.insertAdjacentHTML('afterend', html),
+    [ClientAb.Operations.Prepend]: (node, html) => node.insertAdjacentHTML('afterbegin', html),
+    [ClientAb.Operations.Append]: (node, html) => node.insertAdjacentHTML('beforeend', html),
+    [ClientAb.Operations.Replace]: (node, html) => node.outerHTML = html,
+    [ClientAb.Operations.SetInnerHtml]: (node, html) => node.innerHTML = html,
+    [ClientAb.Operations.Remove]: (node) => node.remove(),
+    [ClientAb.Operations.SetAttribute]: (node, name, value) => node.setAttribute(name, value),
   };
 
   const transform = (target: HTMLElement) => {
     if (target.nodeType !== 1) return;
     for (const [flags, selector, operation, ...args] of transformations) {
-      if (!(flags & ClientAb.Flags.On_UA) || operation === undefined) continue;
+      if (!(flags & ClientAb.Flags.OnUA) || operation === undefined) continue;
 
       const element = target.querySelector(selector);
       if (!element) continue;

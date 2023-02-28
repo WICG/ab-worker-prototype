@@ -20,14 +20,14 @@ type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : ne
 type CFElementOperation = [FunctionPropertyNames<Element>, (...args: any[]) => Array<any>];
 
 const clientAbOpToCFOpMap: Partial<Record<ClientAb.Operations, CFElementOperation>> = {
-  [ClientAb.Operations.insertBefore]: ['before', (html) => [html, {html: true}]],
-  [ClientAb.Operations.insertAfter]: ['after', (html) => [html, {html: true}]],
-  [ClientAb.Operations.prepend]: ['prepend', (html) => [html, {html: true}]],
-  [ClientAb.Operations.append]: ['append', (html) => [html, {html: true}]],
-  [ClientAb.Operations.replace]: ['replace', (html) => [html, {html: true}]],
-  [ClientAb.Operations.setInnerHtml]: ['setInnerContent', (html) => [html, {html: true}]],
-  [ClientAb.Operations.remove]: ['remove', () => []],
-  [ClientAb.Operations.setAttribute]: ['setAttribute', (name, value) => [name, value]],
+  [ClientAb.Operations.InsertBefore]: ['before', (html) => [html, {html: true}]],
+  [ClientAb.Operations.InsertAfter]: ['after', (html) => [html, {html: true}]],
+  [ClientAb.Operations.Prepend]: ['prepend', (html) => [html, {html: true}]],
+  [ClientAb.Operations.Append]: ['append', (html) => [html, {html: true}]],
+  [ClientAb.Operations.Replace]: ['replace', (html) => [html, {html: true}]],
+  [ClientAb.Operations.SetInnerHtml]: ['setInnerContent', (html) => [html, {html: true}]],
+  [ClientAb.Operations.Remove]: ['remove', () => []],
+  [ClientAb.Operations.SetAttribute]: ['setAttribute', (name, value) => [name, value]],
 };
 
 export default class PreUATransformApplicator implements HTMLRewriterElementContentHandlers {

@@ -21,22 +21,22 @@ export module ClientAb {
   ]
 
   export const enum Flags {
-    Pre_UA = 1 << 0,
-    On_UA  = 1 << 1,
-    Once   = 1 << 2,
+    PreUA = 1 << 0,
+    OnUA  = 1 << 1,
+    Once  = 1 << 2,
   }
 
   export const enum Operations {
-    customJs = 0,
-    insertBefore = 1,
-    insertAfter = 2,
-    prepend = 3,
-    append = 4,
-    replace = 5,
-    setInnerHtml = 6,
-    remove = 7,
-    setAttribute = 8,
-    redirect = 9,
+    CustomJs = 0,
+    InsertBefore = 1,
+    InsertAfter = 2,
+    Prepend = 3,
+    Append = 4,
+    Replace = 5,
+    SetInnerHtml = 6,
+    Remove = 7,
+    SetAttribute = 8,
+    Redirect = 9,
   }
 
 }

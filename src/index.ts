@@ -15,8 +15,6 @@
  */
 
 import VariantSelection from './lib/ab-variant-selection';
-import PreUATransformApplicator from './lib/pre-ua-transform-applicator';
-import UATransformApplicator from './lib/ua-transform-applicator';
 import packageJson from '../package.json';
 import { applyTransformations } from './lib/transformer';
 

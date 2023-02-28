@@ -10,10 +10,10 @@ export async function applyTransformations(mutableResponse: Response,
   const rewriter = new HTMLRewriter();
   let clientTransformCount = 0;
   for (const [flags, selector, op, ...rest] of transformations) {
-    if (flags & ClientAb.Flags.Pre_UA) {
+    if (flags & ClientAb.Flags.PreUA) {
       rewriter.on(selector, new PreUATransformApplicator(op, ...rest));
     }
-    if (flags & ClientAb.Flags.On_UA) clientTransformCount++;
+    if (flags & ClientAb.Flags.OnUA) clientTransformCount++;
   }
 
   // If On-UA transforms exist, involve ClientTransformApplicator
