@@ -1,4 +1,4 @@
-# Client-Side A/B testing
+asdasd# Client-Side A/B testing
 
 Client side A/B testing refers to the method of performing experimentation related changes to a web application in the browser — sometimes without integrating code changes to the actual application source code. This is popular in the industry as the method usually helps to cut down resources required for experimentation. Our objective is to explore ways of conducting the same outcome, without the performance penalties it comes with today.
 
