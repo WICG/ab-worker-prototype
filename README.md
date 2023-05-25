@@ -28,7 +28,8 @@ with all its benefits offered, but without the performance penalties.
 ## Directory structure
 
  * `specs/` folder ontains the latest specification and explainers.
- * `implementations/` hosts current prototypes, demos and sdks.
+ * `sdks/` contains sdks, libraries, etc.
+ * `prototypes/` hosts current prototypes, demos and sdks.
 
 ## Contributing
 
