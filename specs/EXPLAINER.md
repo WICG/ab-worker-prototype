@@ -4,15 +4,15 @@ Client side A/B testing refers to the method of performing experimentation relat
 
 ## Overview
 
-The key to the approach being outlined here is considering **_control_** as the base document, and expressing each **_variant_** as a series of transformations being applied onto control. 
+The key to the approach being outlined here is considering **_control_** as the base document, and expressing each **_variant_** as a series of transformations being applied onto control.
 
-This is analogous to how client side A/B testing is conducted today — except we want to improve it further and make it more performant. How do we do that? 
+This is analogous to how client side A/B testing is conducted today — except we want to improve it further and make it more performant. How do we do that?
 
 1.  Standardize the serialization of changes to a common schema.
 
-2.  Whenever possible, optimize for applying a transformation where it makes the best sense (pre-UA, or on-UA). This helps to: 
+2.  Whenever possible, optimize for applying a transformation where it makes the best sense (pre-UA, or on-UA). This helps to:
 
-    a. reduce the bytes transferred,  
+    a. reduce the bytes transferred,
     b. potentially improve cache hit rates at serving
     c. reduce computation needs on each client.
 
@@ -36,8 +36,8 @@ where each field can be defined as follows
   <tr>
    <td><code>flags</code>
    </td>
-   <td>A bit field that indicates the type of transformation. 
-   For an initial version, we can support the following flags: 
+   <td>A bit field that indicates the type of transformation.
+   For an initial version, we can support the following flags:
     <table style="width: auto;">
       <tr>
       <td><code>0x1</code>
@@ -45,7 +45,7 @@ where each field can be defined as follows
       <td><code>PRE_UA</code>
       </td>
       <td>Transform can be applied on the server, or prior to UA parsing.
-      <br>It could be done at a CDN/Edge, or at the Origin server itself. 
+      <br>It could be done at a CDN/Edge, or at the Origin server itself.
     <br>
     <br>
     Most of the static document transformations would use this flag.
@@ -76,27 +76,27 @@ where each field can be defined as follows
   </tr>
   <tr>
    <td><code>selector</code></td>
-   <td>A CSS selector that targets the `HTMLElement` for transformation. 
-   Depending on the target platform and capability, only a subset of 
-   CSS selectors might be applicable here (and that needs to be 
+   <td>A CSS selector that targets the `HTMLElement` for transformation.
+   Depending on the target platform and capability, only a subset of
+   CSS selectors might be applicable here (and that needs to be
    documented and revisioned as the support changes).
    </td>
   </tr>
   <tr>
    <td><code>operation<code></td>
-   <td>A numeric value indicating the operation to be performed. 
-   For a list of operations and their supported parameters, see the section 
+   <td>A numeric value indicating the operation to be performed.
+   For a list of operations and their supported parameters, see the section
    "Operations" below.
 
    <br>
-   The operations are expected to be idempotent, i.e., repeated 
-   applications of the operations should be possible and not have 
+   The operations are expected to be idempotent, i.e., repeated
+   applications of the operations should be possible and not have
    unintended side effects.
    </td>
   </tr>
   <tr>
    <td><code>payload</code></td>
-   <td>A variable number of arguments to support the operation. 
+   <td>A variable number of arguments to support the operation.
    Should follow the specification of the operation used.
    </td>
   </tr>
@@ -116,7 +116,7 @@ where each field can be defined as follows
    <td>Executes a custom Javascript block of code against the element.
 <p>
 
-Arguments: 
+Arguments:
 
 `code`: Javascript code serialized as a string. The applicator code will call this code as a function ($) => code, $ referring to the element selected.
    </td>
@@ -127,7 +127,7 @@ Arguments:
    <td>Inserts content right before the element.
 <p>
 
-Arguments: 
+Arguments:
 
 `content`: HTML markup
    </td>
@@ -138,7 +138,7 @@ Arguments:
    <td>Inserts content right after the element.
 <p>
 
-Arguments: 
+Arguments:
 
 <p>
 `content`: HTML markup
@@ -150,7 +150,7 @@ Arguments:
    <td>Inserts content right after the start tag of the element.
 <p>
 
-Arguments: 
+Arguments:
 
 <p>
 `content`: HTML markup
@@ -162,7 +162,7 @@ Arguments:
    <td>Inserts content right before the end tag of the element.
 <p>
 
-Arguments: 
+Arguments:
 
 <p>
 `content`: HTML markup
@@ -174,7 +174,7 @@ Arguments:
    <td>Replaces the element with the provided content.
 <p>
 
-Arguments: 
+Arguments:
 
 <p>
 `content`: HTML markup
@@ -186,7 +186,7 @@ Arguments:
    <td>Replaces the content of the element with provided content.
 <p>
 
-Arguments: 
+Arguments:
 
 <p>
 `content`: HTML markup
@@ -210,7 +210,7 @@ none.
    <td>Sets an attribute’s value on the element.
 <p>
 
-Arguments: 
+Arguments:
 
 <p>
 `name`: Name of the attribute
@@ -224,7 +224,7 @@ Arguments:
    <td>Redirect the user to a different page or URL.
 <p>
 
-Arguments: 
+Arguments:
 
 <p>
 `URL`: URL to redirect the page to.
@@ -242,12 +242,12 @@ Arguments:
 ## `PRE_UA` components
 
 A `PRE_UA` component is responsible for applying the transformations flagged as `PRE_UA`, i.e., the transforms that make best sense to be applied before User-Agent. This could be done at:
-1. the Origin itself, or 
+1. the Origin itself, or
 2. an Edge component at the Origin (like a web server plugin, or a proxy), or
-3. a CDN compute node that fronts the Origin as a proxy, or 
-4. an implementation inside the UA/Browser prior to parsing the document (this has a latency impact). 
+3. a CDN compute node that fronts the Origin as a proxy, or
+4. an implementation inside the UA/Browser prior to parsing the document (this has a latency impact).
 
-The important aspect is that the `PRE_UA` transformations are best done at a step prior to UA’s parsing. 
+The important aspect is that the `PRE_UA` transformations are best done at a step prior to UA’s parsing.
 
 `PRE_UA` component has the following responsibilities:
 
@@ -259,13 +259,13 @@ The important aspect is that the `PRE_UA` transformations are best done at a ste
 The client-side/`ON_UA` components are responsible for applying `ON_UA` transformations as necessary, and consists of two parts:
 
 1. The remaining `ON_UA` transformations from the experiment configuration.
-2. The client side transformation applicator code. 
+2. The client side transformation applicator code.
 
-## Client-side transform applicator 
+## Client-side transform applicator
 
 The applicator component injected into the `HEAD` of the document has the following parts to it:
 
-*   A `MutationObserver` client code that listens for DOM changes. 
+*   A `MutationObserver` client code that listens for DOM changes.
 *   The listening code looks for DOM changes that match the `ON_UA` selectors, as (1) the browser is parsing the document, or (2) the client side Javascript is making changes to the DOM.
 *   One or more identified DOM mutations that match the selectors are queued and deferred for processing until the next repaint, via a `requestAnimationFrame` callback.
 *   The queue is processed, applying each `ON_UA` transformation as needed — via running the matching `DOMElement` through the supplied transformation function.
@@ -318,7 +318,7 @@ This block results in approximately 365 bytes of minified code when processed vi
 # References
 
 *   [WebPerfWG Open meeting notes 2021-02-04](https://w3c.github.io/web-performance/meetings/2021/2021-02-04/index.html)
-*   [A/B Testing at the Edge with Servers Workers](https://www.filamentgroup.com/lab/servers-workers.html) 
+*   [A/B Testing at the Edge with Servers Workers](https://www.filamentgroup.com/lab/servers-workers.html)
 *   [Performant A/B Testing with Cloudflare Workers](https://philipwalton.com/articles/performant-a-b-testing-with-cloudflare-workers/)
 *   [A History of HTML Parsing at Cloudflare: Part 1](https://blog.cloudflare.com/html-parsing-1/)
 *   [The Case Against Anti-Flicker Snippets](https://andydavies.me/blog/2020/11/16/the-case-against-anti-flicker-snippets/)
