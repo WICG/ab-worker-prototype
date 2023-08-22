@@ -3,7 +3,7 @@ export module Experimentation {
     flag: Flags, selector: string, operation: Operations, ...rest: any
   ]
 
-  export const enum Flags {
+  export enum Flags {
     PreUA = 1 << 0,
     OnUA  = 1 << 1,
     Once  = 1 << 2,
