@@ -1,0 +1,27 @@
+{
+  "name": "client-experimentation",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex N. Jose <alexnj@google.com>",
+  "license": "W3C-20150513",
+  "files": [
+    "lib/**/*"
+  ],
+  "prepare": "npm run build",
+  "prepublishOnly": "npm test && npm run lint",
+  "preversion": "npm run lint",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230814.0",
+    "prettier": "^3.0.2",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^5.1.6"
+  }
+}
