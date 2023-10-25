@@ -221,13 +221,14 @@ Arguments:
   <tr>
    <td>OP_REDIRECT</td>
    <td>9</td>
-   <td>Redirect the user to a different page or URL.
+   <td>Redirect the user to a different page or URL. During `PRE_UA` phase, this will perform an HTTP redirect and during `ON_UA`, this will result in client side redirection. Additional arguments supplied can select the response code during PRE_UA phase.
 <p>
 
 Arguments:
 
 <p>
 `URL`: URL to redirect the page to.
+`code`: HTTP code to use for redirection during PRE_UA phase.
    </td>
   </tr>
 </table>

@@ -8,8 +8,12 @@ export default class UATransformApplicator  implements HTMLRewriterElementConten
   }
 
   static serializeOperation(operation: Experimentation.Operations, args: any[]) {
-    if (operation === Experimentation.Operations.CustomJs) {
-      return [operation, `$=>{${args[0]}}`];
+    switch (operation) {
+      case Experimentation.Operations.CustomJs:
+        return [operation, `$=>{${args[0]}}`];
+      case Experimentation.Operations.Redirect:
+        // In case of a redirect, we use a CustomJs operation to rewrite location.
+        return [Experimentation.Operations.CustomJs, `$=>{window.location.href="${JSON.stringify(args[0])}"}`];
     }
     return [operation, ...args.map(arg => JSON.stringify(arg))];
   }
