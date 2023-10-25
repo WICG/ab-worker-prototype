@@ -1,0 +1,12 @@
+{
+  "transformations": [
+    [1, "head script:nth-of-type(2)", 5, "<!-- replaced https://unpkg.com/@optimizely/optimizely-sdk@3.2.0/dist/optimizely.browser.umd.min.js -->"],
+    [1, "head script:nth-of-type(3)", 5, "<!-- replaced optimizelySdk.createInstance script -->"],
+    [1, "head script:nth-of-type(5)", 5, "<!-- replaced optimizely dynamic fetch script -->"],
+
+    [2, ".hero__text-content.hero__image", 8, "style",
+      "background-image: url(\"//cdn.shopify.com/s/files/1/0923/0916/t/2/assets/hero_slide_2.jpg\");"],
+    [2, ".hero__title", 0, "$.innerHTML=\"Ready to go back to the office?\""],
+    [2, "#products div.grid.grid-collage > div:nth-child(1) > div > div.grid__item.grid-product.grid__item:first-of-type:not(.replaced)", 5, "<div class=\"grid__item grid-product grid__item--large one-whole medium--two-thirds large--two-thirds replaced\"><div class=\"grid-product__wrapper\"><div class=\"grid-product__image-wrapper\">  <a class=\"grid-product__image-link\" href=\"\/collections\/all\/products\/derby-tier-backpack\" style=\"\">    <img src=\"\/\/cdn.shopify.com\/s\/files\/1\/0923\/0916\/products\/derbytier_nutmeg_grande_b4527ea4-f726-4b4b-901e-a02844863556_large.jpeg?v=1477953786\" alt=\"Derby Tier Backpack\" class=\"grid-product__image\">  <\/a>    <div class=\"grid-product__on-sale\">        <p>NEW ARRIVAL!<br>$91.00<\/p>    <\/div><\/div><a href=\"\/collections\/all\/products\/derby-tier-backpack\" class=\"grid-product__meta\">  <span class=\"grid-product__title\">Derby Tier Backpack<\/span>  <span class=\"grid-product__price-wrap\">    <span class=\"long-dash\">\u2014<\/span>    <span class=\"grid-product__price\">        $147    <\/span>  <\/span><\/a> <\/div><\/div>"]
+  ]
+}
