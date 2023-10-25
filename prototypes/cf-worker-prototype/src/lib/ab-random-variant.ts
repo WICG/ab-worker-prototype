@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { ClientAb } from "./constants";
+import { Experimentation } from "../../../../sdks/npm/lib/index";
 
 export interface Variant {
   weight: number;
   url?: string;
-  transformations: ClientAb.Transform[];
+  transformations: Experimentation.Transform[];
 }
 
 export class AbRandomVariant {
