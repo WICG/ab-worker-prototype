@@ -2,16 +2,17 @@ export interface Env {}
 
 import { parse } from 'cookie';
 import packageJson from '../package.json';
-import { ClientAb } from './lib/constants';
-import { applyTransformations } from './lib/transformer';
+import { Experimentation } from '../../../sdks/npm/lib/index'
+import { applyTransformations } from '../../../sdks/npm/lib/cf/transformer';
 
-type ABConfigurationAPIResponse = {transformations: ClientAb.Transform[]};
+type ABConfigurationAPIResponse = {transformations: Experimentation.Transform[]};
 const identificationString = `${packageJson.name}/${packageJson.version}`;
 
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     // Rewrite only read operations.
     if (request.method !== 'GET') return new Response(null, {status: 405});
+
     const { host, pathname, search, searchParams } = new URL(request.url);
     const cookies = parse(request.headers.get('cookie') || '');
     const experiment = searchParams.get('experiment') ?? cookies['experiment'] ?? '';
