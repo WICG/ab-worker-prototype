@@ -109,25 +109,22 @@ where each field can be defined as follows
    <td style="background-color: #d9d9d9">Operation</td>
    <td style="background-color: #d9d9d9">Code</td>
    <td style="background-color: #d9d9d9">Description</td>
+   <td style="background-color: #d9d9d9">Arguments</td>
   </tr>
   <tr>
    <td>OP_CUSTOM_JS</td>
    <td>0</td>
    <td>Executes a custom Javascript block of code against the element.
-<p>
-
-Arguments:
-
-`code`: Javascript code serialized as a string. The applicator code will call this code as a function ($) => code, $ referring to the element selected.
+   <td> 
+   
+   `code` : Javascript code serialized as a string. The applicator code will call this code as a function ($) => code, $ referring to the element selected.
    </td>
   </tr>
   <tr>
    <td>OP_INSERT_BEFORE</td>
    <td>1</td>
-   <td>Inserts content right before the element.
-<p>
-
-Arguments:
+   <td>Inserts content right before the element.</td>
+<td>
 
 `content`: HTML markup
    </td>
@@ -135,99 +132,73 @@ Arguments:
   <tr>
    <td>OP_INSERT_AFTER</td>
    <td>2</td>
-   <td>Inserts content right after the element.
-<p>
+   <td>Inserts content right after the element.</td>
+<td>
 
-Arguments:
-
-<p>
 `content`: HTML markup
    </td>
   </tr>
   <tr>
    <td>OP_PREPEND</td>
    <td>3</td>
-   <td>Inserts content right after the start tag of the element.
-<p>
-
-Arguments:
-
-<p>
-`content`: HTML markup
+   <td>Inserts content right after the start tag of the element.</td>
+   <td> 
+   
+   `content`: HTML markup
    </td>
   </tr>
   <tr>
    <td>OP_APPEND</td>
    <td>4</td>
-   <td>Inserts content right before the end tag of the element.
-<p>
+   <td>Inserts content right before the end tag of the element.</td>
+   <td> 
 
-Arguments:
-
-<p>
 `content`: HTML markup
    </td>
   </tr>
   <tr>
    <td>OP_REPLACE</td>
    <td>5</td>
-   <td>Replaces the element with the provided content.
-<p>
+   <td>Replaces the element with the provided content.</td>
+   <td> 
 
-Arguments:
-
-<p>
 `content`: HTML markup
    </td>
   </tr>
   <tr>
    <td>OP_SET_INNERHTML</td>
    <td>6</td>
-   <td>Replaces the content of the element with provided content.
-<p>
-
-Arguments:
-
-<p>
+   <td>Replaces the content of the element with provided content.</td>
+   <td> 
+   
 `content`: HTML markup
    </td>
   </tr>
   <tr>
    <td>OP_REMOVE</td>
    <td>7</td>
-   <td>Removes the element and its children
-<p>
-
-Arguments:
-
-<p>
-none.
-   </td>
+   <td>Removes the element and its children</td>
+   <td>none</td>
   </tr>
   <tr>
    <td>OP_SET_ATTRIBUTE</td>
    <td>8</td>
-   <td>Sets an attribute’s value on the element.
-<p>
-
-Arguments:
-
-<p>
+   <td>Sets an attribute’s value on the element.</td>
+   <td> 
+   
 `name`: Name of the attribute
-<p>
+
 `value`: Value to be set on the attribute.
    </td>
   </tr>
   <tr>
    <td>OP_REDIRECT</td>
    <td>9</td>
-   <td>Redirect the user to a different page or URL. During `PRE_UA` phase, this will perform an HTTP redirect and during `ON_UA`, this will result in client side redirection. Additional arguments supplied can select the response code during PRE_UA phase.
-<p>
-
-Arguments:
-
-<p>
+   <td>Redirect the user to a different page or URL. During `PRE_UA` phase, this will perform an HTTP redirect and during `ON_UA`, this will result in client side redirection. Additional arguments supplied can select the response code during PRE_UA phase.</td>
+   <td> 
+   
 `URL`: URL to redirect the page to.
+
 `code`: HTTP code to use for redirection during PRE_UA phase.
    </td>
   </tr>
