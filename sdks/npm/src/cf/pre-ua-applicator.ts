@@ -37,5 +37,11 @@ export default class PreUATransformApplicator implements HTMLRewriterElementCont
     }
 
     // Handle any complex operations that involves multiple CF operations.
+    switch (this.op) {
+      case Experimentation.Operations.Redirect:
+        const [url, code] = this.args;
+        Response.redirect(url, code);
+        break;
+    }
   }
 }
