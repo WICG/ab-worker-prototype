@@ -1,0 +1,50 @@
+{
+  "transformations": [
+    [1, "li:nth-of-type(4) > a.site-nav__link", 6, "Blog (Link Change)"],
+    [1, "li:nth-of-type(4) > a.site-nav__link", 8, "href", "https://www.google.com/"],
+
+    [1, ".hero__subtitle", 8, "hidden", "true"],
+
+    [1, ".hero__title", 7],
+
+    [1, "li:nth-of-type(5) > a.site-nav__link", 6, "About Us <p>(Position: Absolute)</p>"],
+    [1, "li:nth-of-type(5) > a.site-nav__link", 8, "style", "position: absolute;"],
+
+    [1, ".wrapper > div:nth-of-type(1) > h1", 6, "Featured Products (Font Size Change)"],
+    [1, ".wrapper > div:nth-of-type(1) > h1", 8, "style", "font-size: 50px;"],
+
+    [1, ".grid-collage > div:nth-of-type(1) > .grid > div:nth-of-type(2) .grid-product__title", 6, "A Khaki Showerproof Rubberised Parka (Font Weight Change)"],
+    [1, ".grid-collage > div:nth-of-type(1) > .grid > div:nth-of-type(2) .grid-product__title", 8, "style", "font-weight: 900;"],
+
+    [1, ".is-sold-out .grid-product__title", 6, "5 Panel Camp Baseball Cap (Font Color Change)"],
+    [1, ".is-sold-out .grid-product__title", 8, "style", "color: rgba(233, 16, 16, 1);"],
+
+    [1, ".grid-collage > div:nth-of-type(1) .clearfix.grid__item--small .grid-product__meta", 6, "<span class=\"grid-product__title\">Acrylic Cashmere Scarf (Background Color Change)\t</span>\n      <span class=\"grid-product__price-wrap\">\n        <span class=\"long-dash\">—</span>\n        <span class=\"grid-product__price\">\n          \n            $125\n          \n        </span>\n      </span>"],
+    [1, ".grid-collage > div:nth-of-type(1) .clearfix.grid__item--small .grid-product__meta", 8, "style", "background-color: rgba(0, 224, 255, 1);"],
+
+    [1, ".grid__item--large.medium--two-thirds.reverse .grid-product__title", 6, "Horween Leather Timex Watch (Background Added Change and Image hidden)"],
+    [1, ".grid__item--large.medium--two-thirds.reverse .grid-product__image-link", 8, "style", "visibility: hidden"],
+    [1, ".grid__item--large.medium--two-thirds.reverse .grid-product__image-wrapper", 8, "style", "background-image: url(\"https://cdn.shopify.com/s/files/1/0923/0916/products/BTz0SSxqj1_horween_leather_timex_expedition_0_original_large.jpg?v=1470873249\");\nbackground-size: 220px"],
+
+    [1, ".collage-grid__reverse--wrapper > div:nth-of-type(1) > div:nth-of-type(1) .grid-product__title", 6, "Derby Tier Backpack (Border Added)"],
+    [1, ".collage-grid__reverse--wrapper > div:nth-of-type(1) > div:nth-of-type(1) .grid-product__title", 8, "style", "border-color: rgba(217, 72, 24, 1);border-style: dashed;border-width:3px"],
+
+    [1, "div:nth-of-type(5) .grid__item--large .grid-product__title", 6, "No Show Athletic Sock (Image Dimensions Changed)"],
+    [1, "div:nth-of-type(5) .grid__item--large .grid-product__image", 8, "style", "width: 11150px;height:150px"],
+
+    [1, ".grid-product__price", 8, "style", "font-size:30px"],
+
+    [1, "head", 0, "function clock() {\n  const now = new Date();\n  const canvas = document.getElementById(\"canvas\");\n  const ctx = canvas.getContext(\"2d\");\n  ctx.save();\n  ctx.clearRect(0, 0, 150, 150);\n  ctx.translate(75, 75);\n  ctx.scale(0.4, 0.4);\n  ctx.rotate(-Math.PI / 2);\n  ctx.strokeStyle = \"black\";\n  ctx.fillStyle = \"white\";\n  ctx.lineWidth = 8;\n  ctx.lineCap = \"round\";\n\n  // Hour marks\n  ctx.save();\n  for (let i = 0; i < 12; i++) {\n    ctx.beginPath();\n    ctx.rotate(Math.PI / 6);\n    ctx.moveTo(100, 0);\n    ctx.lineTo(120, 0);\n    ctx.stroke();\n  }\n  ctx.restore();\n\n  // Minute marks\n  ctx.save();\n  ctx.lineWidth = 5;\n  for (let i = 0; i < 60; i++) {\n    if (i % 5 !== 0) {\n      ctx.beginPath();\n      ctx.moveTo(117, 0);\n      ctx.lineTo(120, 0);\n      ctx.stroke();\n    }\n    ctx.rotate(Math.PI / 30);\n  }\n  ctx.restore();\n\n  const sec = now.getSeconds();\n  const min = now.getMinutes();\n  const hr = now.getHours() % 12;\n\n  ctx.fillStyle = \"black\";\n\n  // Write image description\n  canvas.innerText = `The time is: ${hr}:${min}`;\n\n  // Write Hours\n  ctx.save();\n  ctx.rotate(\n    (Math.PI / 6) * hr + (Math.PI / 360) * min + (Math.PI / 21600) * sec\n  );\n  ctx.lineWidth = 14;\n  ctx.beginPath();\n  ctx.moveTo(-20, 0);\n  ctx.lineTo(80, 0);\n  ctx.stroke();\n  ctx.restore();\n\n  // Write Minutes\n  ctx.save();\n  ctx.rotate((Math.PI / 30) * min + (Math.PI / 1800) * sec);\n  ctx.lineWidth = 10;\n  ctx.beginPath();\n  ctx.moveTo(-28, 0);\n  ctx.lineTo(112, 0);\n  ctx.stroke();\n  ctx.restore();\n\n  // Write seconds\n  ctx.save();\n  ctx.rotate((sec * Math.PI) / 30);\n  ctx.strokeStyle = \"#D40000\";\n  ctx.fillStyle = \"#D40000\";\n  ctx.lineWidth = 6;\n  ctx.beginPath();\n  ctx.moveTo(-30, 0);\n  ctx.lineTo(83, 0);\n  ctx.stroke();\n  ctx.beginPath();\n  ctx.arc(0, 0, 10, 0, Math.PI * 2, true);\n  ctx.fill();\n  ctx.beginPath();\n  ctx.arc(95, 0, 10, 0, Math.PI * 2, true);\n  ctx.stroke();\n  ctx.fillStyle = \"rgba(0, 0, 0, 0)\";\n  ctx.arc(0, 0, 3, 0, Math.PI * 2, true);\n  ctx.fill();\n  ctx.restore();\n\n  ctx.beginPath();\n  ctx.lineWidth = 14;\n  ctx.strokeStyle = \"#325FA2\";\n  ctx.arc(0, 0, 142, 0, Math.PI * 2, true);\n  ctx.stroke();\n\n  ctx.restore();\n\n  window.requestAnimationFrame(clock);\n}\n\nwindow.requestAnimationFrame(clock);\n"],
+    [1, ".collage-grid__reverse--wrapper > .grid > div:nth-of-type(2) .grid-product__image-link", 5, "<canvas id=\"canvas\" width=\"150\" height=\"150\">The current time</canvas>"],
+    [1, ".collage-grid__reverse--wrapper > .grid > div:nth-of-type(2) .grid-product__title", 6, "Custom Animation Javascript and HTML Added"],
+
+    [1, "head", 4, "<style>.ticker-container {\nwidth: 100%;\noverflow: hidden;\n}\n.ticker-wrapper {\nwidth: 100%;\npadding-left: 100%;\nbackground-color: transparent;\n}\n@keyframes ticker {\n0% {\ntransform: translate3d(0, 0, 0);\n}\n100% {\ntransform: translate3d(-400%, 0, 0);\n}\n}\n.ticker-transition {\ndisplay: inline-block;\nwhite-space: nowrap;\npadding-right: 100%;\nanimation-iteration-count: infinite;\nanimation-timing-function: linear;\nanimation-name: ticker;\nanimation-duration: 10s;\n}\n.ticker-transition:hover {\nanimation-play-state: paused;\ncursor: pointer;\n}\n.ticker-item {\ndisplay: inline-block;\npadding: 0 2rem;\n}</style>"],
+    [1, "body", 3, "<div class=\"ticker-container\">\n        <div class=\"ticker-wrapper\">\n        <div class=\"ticker-transition\">\n        <div class=\"ticker-item\">This is a ticker animation resulting from custom CSS and newly added HTML</div>\n        </div>\n        </div>\n        </div>"],
+
+    [1, ".wrapper > div:nth-of-type(1) > h1", 1, "<br>\n<span>Span Inserted Before Header</span>\n<br>"],
+    [1, ".wrapper > div:nth-of-type(1) > h1", 2, "<br>\n<span>Span Inserted After Header</span>\n<br>"],
+    [1, ".wrapper > div:nth-of-type(1) > h1", 4, "<br>\n<span>Span Inserted At the End of Header</span>\n<br>"],
+    [1, ".wrapper > div:nth-of-type(1) > h1", 3, "<br>\n<span>Span Inserted At the Beginning of Header</span>\n<br>"]
+
+  ]
+}
