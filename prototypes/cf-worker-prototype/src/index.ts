@@ -16,7 +16,7 @@
 
 import VariantSelection from './lib/ab-variant-selection';
 import packageJson from '../package.json';
-import { applyTransformations } from './lib/transformer';
+import { applyTransformations } from '../../../sdks/npm/lib/cf/transformer';
 
 const identificationString = `${packageJson.name}/${packageJson.version}`;
 
